@@ -1,12 +1,14 @@
 from django.shortcuts import render
 import json
 import urllib.request
+from decouple import config
+secret_api_key = config("secret_api_key")
 
 # Create your views here.
 def index(request):
     if request.method == 'POST':
         city = request.POST['city']
-        res = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+city+'&appid=80cd8419b3b2bebbe876bbdffd8034eb').read()
+        res = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+city+'&appid=' + secret_api_key).read()
         json_data = json.loads(res)
         data = {
             "country": str(json_data['sys']['country']),
